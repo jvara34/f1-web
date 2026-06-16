@@ -1,4 +1,12 @@
 import { PageHeader } from "@/components/PageHeader";
+import { HeroSection } from "@/components/HeroSection";
+import { StatCards } from "@/components/StatCards";
+import { PerformanceChart } from "@/components/PerformanceChart";
+import { DriverStandings } from "@/components/DriverStandings";
+import { ConstructorStandings } from "@/components/ConstructorStandings";
+import { RaceResults } from "@/components/RaceResults";
+import { SeasonCalendar } from "@/components/SeasonCalendar";
+import { Card } from "@/components/Card";
 
 export default function DashboardPage() {
   return (
@@ -8,27 +16,25 @@ export default function DashboardPage() {
         subtitle="Explore race results, driver trends, constructor performance, and historical comparisons."
       />
 
-      {/* Widgets will be built here in Phase 2 */}
-      <div
-        className="rounded-xl p-8 flex items-center justify-center"
-        style={{
-          background: "var(--card)",
-          border: "1px dashed var(--border)",
-          boxShadow: "0 1px 3px rgba(14,21,35,0.06)",
-        }}
-      >
-        <p
-          style={{
-            fontFamily: "var(--font-barlow-condensed)",
-            fontSize: "0.8rem",
-            fontWeight: 600,
-            letterSpacing: "0.12em",
-            textTransform: "uppercase",
-            color: "var(--muted-foreground)",
-          }}
-        >
-          Dashboard widgets coming soon
-        </p>
+      {/* Next race hero with countdown */}
+      <HeroSection />
+
+      {/* 4 quick-stat cards */}
+      <StatCards />
+
+      {/* Points progression chart */}
+      <PerformanceChart />
+
+      {/* Driver + Constructor standings */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <Card><DriverStandings /></Card>
+        <Card><ConstructorStandings /></Card>
+      </div>
+
+      {/* Race results + season calendar */}
+      <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-5">
+        <Card><RaceResults /></Card>
+        <Card><SeasonCalendar /></Card>
       </div>
     </div>
   );
