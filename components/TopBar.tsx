@@ -36,7 +36,7 @@ export function TopBar() {
       >
         {pageLabel}
         <span className="mx-2" style={{ color: "var(--border)", opacity: 3 }}>/</span>
-        <span style={{ color: "var(--foreground)" }}>2025 Season</span>
+        <span style={{ color: "var(--foreground)" }}>2026 Season</span>
       </div>
 
       <div className="flex items-center gap-2">

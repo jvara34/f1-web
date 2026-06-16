@@ -8,6 +8,8 @@ export interface Driver {
   points: number;
   wins: number;
   podiums: number;
+  poles: number;
+  lapsLed: number;
   trend: "up" | "down" | "same";
 }
 
@@ -54,17 +56,32 @@ export const TEAM_COLORS: Record<string, string> = {
 };
 
 export const driverStandings: Driver[] = [
-  { position: 1, name: "Lando Norris",       shortName: "NOR", team: "McLaren",      points: 156, wins: 3, podiums: 6, trend: "up"   },
-  { position: 2, name: "Max Verstappen",     shortName: "VER", team: "Red Bull",     points: 138, wins: 2, podiums: 5, trend: "same" },
-  { position: 3, name: "Charles Leclerc",    shortName: "LEC", team: "Ferrari",      points: 121, wins: 2, podiums: 5, trend: "down" },
-  { position: 4, name: "Lewis Hamilton",     shortName: "HAM", team: "Ferrari",      points: 98,  wins: 0, podiums: 3, trend: "up"   },
-  { position: 5, name: "Oscar Piastri",      shortName: "PIA", team: "McLaren",      points: 87,  wins: 0, podiums: 2, trend: "same" },
-  { position: 6, name: "George Russell",     shortName: "RUS", team: "Mercedes",     points: 72,  wins: 0, podiums: 1, trend: "up"   },
-  { position: 7, name: "Carlos Sainz",       shortName: "SAI", team: "Williams",     points: 48,  wins: 0, podiums: 0, trend: "down" },
-  { position: 8, name: "Fernando Alonso",    shortName: "ALO", team: "Aston Martin", points: 31,  wins: 0, podiums: 0, trend: "same" },
-  { position: 9, name: "Nico Hülkenberg",   shortName: "HUL", team: "Haas",         points: 24,  wins: 0, podiums: 0, trend: "up"   },
-  { position: 10, name: "Lance Stroll",      shortName: "STR", team: "Aston Martin", points: 18,  wins: 0, podiums: 0, trend: "down" },
+  { position: 1, name: "Lando Norris",       shortName: "NOR", team: "McLaren",      points: 156, wins: 3, podiums: 5, poles: 4, lapsLed: 220, trend: "up"   },
+  { position: 2, name: "Max Verstappen",     shortName: "VER", team: "Red Bull",     points: 138, wins: 2, podiums: 5, poles: 2, lapsLed: 130, trend: "same" },
+  { position: 3, name: "Charles Leclerc",    shortName: "LEC", team: "Ferrari",      points: 121, wins: 2, podiums: 5, poles: 1, lapsLed: 70,  trend: "down" },
+  { position: 4, name: "Lewis Hamilton",     shortName: "HAM", team: "Ferrari",      points: 98,  wins: 0, podiums: 3, poles: 0, lapsLed: 20,  trend: "up"   },
+  { position: 5, name: "Oscar Piastri",      shortName: "PIA", team: "McLaren",      points: 87,  wins: 0, podiums: 2, poles: 0, lapsLed: 40,  trend: "same" },
+  { position: 6, name: "George Russell",     shortName: "RUS", team: "Mercedes",     points: 72,  wins: 0, podiums: 1, poles: 0, lapsLed: 10,  trend: "up"   },
+  { position: 7, name: "Carlos Sainz",       shortName: "SAI", team: "Williams",     points: 48,  wins: 0, podiums: 0, poles: 0, lapsLed: 0,   trend: "down" },
+  { position: 8, name: "Fernando Alonso",    shortName: "ALO", team: "Aston Martin", points: 31,  wins: 0, podiums: 0, poles: 0, lapsLed: 0,   trend: "same" },
+  { position: 9, name: "Nico Hülkenberg",   shortName: "HUL", team: "Haas",         points: 25,  wins: 0, podiums: 0, poles: 0, lapsLed: 0,   trend: "up"   },
+  { position: 10, name: "Liam Lawson",       shortName: "LAW", team: "Red Bull",     points: 24,  wins: 0, podiums: 0, poles: 0, lapsLed: 0,   trend: "same" },
+  { position: 11, name: "Kimi Antonelli",    shortName: "ANT", team: "Mercedes",     points: 23,  wins: 0, podiums: 0, poles: 0, lapsLed: 0,   trend: "same" },
+  { position: 12, name: "Lance Stroll",      shortName: "STR", team: "Aston Martin", points: 18,  wins: 0, podiums: 0, poles: 0, lapsLed: 0,   trend: "down" },
+  { position: 13, name: "Alex Albon",        shortName: "ALB", team: "Williams",     points: 17,  wins: 0, podiums: 0, poles: 0, lapsLed: 0,   trend: "same" },
+  { position: 14, name: "Pierre Gasly",      shortName: "GAS", team: "Alpine",       points: 14,  wins: 0, podiums: 0, poles: 0, lapsLed: 0,   trend: "same" },
+  { position: 15, name: "Esteban Ocon",      shortName: "OCO", team: "Haas",         points: 10,  wins: 0, podiums: 0, poles: 0, lapsLed: 0,   trend: "same" },
+  { position: 16, name: "Valtteri Bottas",   shortName: "BOT", team: "Kick Sauber",  points: 9,   wins: 0, podiums: 0, poles: 0, lapsLed: 0,   trend: "same" },
+  { position: 17, name: "Jack Doohan",       shortName: "DOO", team: "Alpine",       points: 8,   wins: 0, podiums: 0, poles: 0, lapsLed: 0,   trend: "same" },
+  { position: 18, name: "Yuki Tsunoda",      shortName: "TSU", team: "RB",           points: 7,   wins: 0, podiums: 0, poles: 0, lapsLed: 0,   trend: "same" },
+  { position: 19, name: "Zhou Guanyu",       shortName: "ZHO", team: "Kick Sauber",  points: 5,   wins: 0, podiums: 0, poles: 0, lapsLed: 0,   trend: "same" },
+  { position: 20, name: "Isack Hadjar",      shortName: "HAD", team: "RB",           points: 4,   wins: 0, podiums: 0, poles: 0, lapsLed: 0,   trend: "same" },
 ];
+
+// Sum of poles across the grid must equal completed races (one pole per race) — currently 4+2+1 = 7, matching recentRaces/races2026 completed count.
+export function getSeasonLeader(stat: "wins" | "poles" | "lapsLed"): Driver {
+  return driverStandings.reduce((best, d) => (d[stat] > best[stat] ? d : best));
+}
 
 export const constructorStandings: Constructor[] = [
   { position: 1, name: "McLaren",      drivers: ["Norris",     "Piastri"],  points: 243, wins: 3, color: "#FF8000" },

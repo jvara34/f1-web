@@ -1,7 +1,17 @@
 import { TrendingUp, TrendingDown, Minus } from "lucide-react";
 import { driverStandings, TEAM_COLORS } from "@/lib/standings";
 
-export function DriverStandings() {
+const columnLabelStyle = {
+  fontFamily: "var(--font-barlow-condensed)",
+  fontSize: "0.6rem",
+  fontWeight: 700,
+  letterSpacing: "0.1em",
+  textTransform: "uppercase" as const,
+  color: "var(--muted-foreground)",
+};
+
+export function DriverStandings({ variant = "compact" }: { variant?: "compact" | "full" }) {
+  const standings = variant === "full" ? driverStandings : driverStandings.slice(0, 5);
   const leader = driverStandings[0];
 
   return (
@@ -20,8 +30,21 @@ export function DriverStandings() {
         Driver Standings
       </div>
 
+      {variant === "full" && (
+        <div className="flex items-center gap-3 px-2 pb-2">
+          <span style={{ width: "16px", flexShrink: 0 }} />
+          <span className="w-0.5 flex-shrink-0" />
+          <span className="flex-1" style={columnLabelStyle}>Driver</span>
+          <span style={{ ...columnLabelStyle, width: "36px", textAlign: "right", flexShrink: 0 }}>Gap</span>
+          <span style={{ ...columnLabelStyle, width: "14px", textAlign: "right", flexShrink: 0 }}>W</span>
+          <span style={{ ...columnLabelStyle, width: "24px", textAlign: "right", flexShrink: 0 }}>Pod</span>
+          <span style={{ ...columnLabelStyle, width: "32px", textAlign: "right", flexShrink: 0 }}>Pts</span>
+          <span className="w-4 flex-shrink-0" />
+        </div>
+      )}
+
       <div className="flex flex-col gap-0.5">
-        {driverStandings.map((driver) => {
+        {standings.map((driver) => {
           const teamColor = TEAM_COLORS[driver.team] ?? "#9ca3af";
           const gap = leader.points - driver.points;
 
@@ -103,6 +126,22 @@ export function DriverStandings() {
               >
                 {driver.wins}W
               </span>
+
+              {/* Podiums (full variant only) */}
+              {variant === "full" && (
+                <span
+                  style={{
+                    fontFamily: "var(--font-jetbrains-mono)",
+                    fontSize: "0.6rem",
+                    color: driver.podiums > 0 ? "var(--foreground)" : "var(--muted-foreground)",
+                    width: "24px",
+                    textAlign: "right",
+                    flexShrink: 0,
+                  }}
+                >
+                  {driver.podiums}P
+                </span>
+              )}
 
               {/* Points */}
               <span

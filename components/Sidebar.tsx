@@ -51,7 +51,7 @@ export function Sidebar() {
             marginTop: "2px",
           }}
         >
-          2025 SEASON
+          2026 SEASON
         </div>
       </div>
 
