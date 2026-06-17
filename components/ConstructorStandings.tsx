@@ -1,4 +1,4 @@
-import { constructorStandings, driverStandings } from "@/lib/standings";
+import type { ConstructorStanding } from "@/lib/types";
 
 const columnLabelStyle = {
   fontFamily: "var(--font-barlow-condensed)",
@@ -9,9 +9,14 @@ const columnLabelStyle = {
   color: "var(--muted-foreground)",
 };
 
-export function ConstructorStandings({ variant = "compact" }: { variant?: "compact" | "full" }) {
-  const maxPoints = constructorStandings[0].points;
-  const leader = constructorStandings[0];
+interface Props {
+  standings: ConstructorStanding[];
+  variant?: "compact" | "full";
+}
+
+export function ConstructorStandings({ standings, variant = "compact" }: Props) {
+  const maxPoints = standings[0]?.points ?? 1;
+  const leader = standings[0];
 
   return (
     <div>
@@ -42,17 +47,13 @@ export function ConstructorStandings({ variant = "compact" }: { variant?: "compa
       )}
 
       <div className="flex flex-col gap-3">
-        {constructorStandings.map((c) => {
+        {standings.map((c) => {
           const barWidth = (c.points / maxPoints) * 100;
-          const gap = leader.points - c.points;
-          const teamDrivers = driverStandings
-            .filter((d) => d.team === c.name)
-            .sort((a, b) => a.position - b.position);
-          const podiums = teamDrivers.reduce((sum, d) => sum + d.podiums, 0);
+          const gap = (leader?.points ?? 0) - c.points;
           const driverLabel =
             variant === "full"
-              ? teamDrivers.map((d) => d.name).join(" · ")
-              : `${c.drivers[0]} · ${c.drivers[1]}`;
+              ? c.drivers.join(" · ")
+              : `${c.drivers[0] ?? ""} · ${c.drivers[1] ?? ""}`;
 
           return (
             <div key={c.name}>
@@ -125,12 +126,12 @@ export function ConstructorStandings({ variant = "compact" }: { variant?: "compa
                         style={{
                           fontFamily: "var(--font-jetbrains-mono)",
                           fontSize: "0.6rem",
-                          color: podiums > 0 ? "var(--foreground)" : "var(--muted-foreground)",
+                          color: c.podiums > 0 ? "var(--foreground)" : "var(--muted-foreground)",
                           width: "28px",
                           textAlign: "right",
                         }}
                       >
-                        {podiums}P
+                        {c.podiums}P
                       </span>
                     </>
                   )}

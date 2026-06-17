@@ -1,8 +1,11 @@
+import { api } from "@/lib/api";
 import { PageHeader } from "@/components/PageHeader";
 import { DriverStandings } from "@/components/DriverStandings";
 import { Card } from "@/components/Card";
 
-export default function DriversPage() {
+export default async function DriversPage() {
+  const standings = await api.getDriverStandings();
+
   return (
     <div>
       <PageHeader
@@ -10,7 +13,7 @@ export default function DriversPage() {
         subtitle="2026 Formula 1 World Drivers' Championship"
       />
       <Card>
-        <DriverStandings variant="full" />
+        <DriverStandings standings={standings} variant="full" />
       </Card>
     </div>
   );

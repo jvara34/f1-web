@@ -1,9 +1,12 @@
+import { api } from "@/lib/api";
 import { PageHeader } from "@/components/PageHeader";
 import { RaceResults } from "@/components/RaceResults";
 import { SeasonCalendar } from "@/components/SeasonCalendar";
 import { Card } from "@/components/Card";
 
-export default function RacesPage() {
+export default async function RacesPage() {
+  const recentRaces = await api.getRecentRaces();
+
   return (
     <div>
       <PageHeader
@@ -11,7 +14,7 @@ export default function RacesPage() {
         subtitle="2026 season results and upcoming schedule"
       />
       <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-5">
-        <Card><RaceResults /></Card>
+        <Card><RaceResults races={recentRaces} /></Card>
         <Card><SeasonCalendar /></Card>
       </div>
     </div>

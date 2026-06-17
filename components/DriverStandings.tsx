@@ -1,5 +1,5 @@
 import { TrendingUp, TrendingDown, Minus } from "lucide-react";
-import { driverStandings, TEAM_COLORS } from "@/lib/standings";
+import type { DriverStanding } from "@/lib/types";
 
 const columnLabelStyle = {
   fontFamily: "var(--font-barlow-condensed)",
@@ -10,9 +10,14 @@ const columnLabelStyle = {
   color: "var(--muted-foreground)",
 };
 
-export function DriverStandings({ variant = "compact" }: { variant?: "compact" | "full" }) {
-  const standings = variant === "full" ? driverStandings : driverStandings.slice(0, 5);
-  const leader = driverStandings[0];
+interface Props {
+  standings: DriverStanding[];
+  variant?: "compact" | "full";
+}
+
+export function DriverStandings({ standings, variant = "compact" }: Props) {
+  const visible = variant === "full" ? standings : standings.slice(0, 5);
+  const leader = standings[0];
 
   return (
     <div>
@@ -44,13 +49,13 @@ export function DriverStandings({ variant = "compact" }: { variant?: "compact" |
       )}
 
       <div className="flex flex-col gap-0.5">
-        {standings.map((driver) => {
-          const teamColor = TEAM_COLORS[driver.team] ?? "#9ca3af";
-          const gap = leader.points - driver.points;
+        {visible.map((driver) => {
+          const teamColor = driver.constructor_color ?? "#9ca3af";
+          const gap = (leader?.points ?? 0) - driver.points;
 
           return (
             <div
-              key={driver.shortName}
+              key={driver.code}
               className="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-[var(--secondary)] transition-colors"
             >
               {/* Position */}
@@ -85,7 +90,7 @@ export function DriverStandings({ variant = "compact" }: { variant?: "compact" |
                     lineHeight: 1.1,
                   }}
                 >
-                  {driver.name}
+                  {driver.first_name} {driver.last_name}
                 </div>
                 <div
                   style={{
@@ -95,7 +100,7 @@ export function DriverStandings({ variant = "compact" }: { variant?: "compact" |
                     color: "var(--muted-foreground)",
                   }}
                 >
-                  {driver.team}
+                  {driver.constructor_name}
                 </div>
               </div>
 
@@ -158,11 +163,9 @@ export function DriverStandings({ variant = "compact" }: { variant?: "compact" |
                 {driver.points}
               </span>
 
-              {/* Trend */}
+              {/* Trend placeholder — Phase 5 will compute from race-by-race deltas */}
               <div className="w-4 flex-shrink-0">
-                {driver.trend === "up" && <TrendingUp size={12} color="#16a34a" />}
-                {driver.trend === "down" && <TrendingDown size={12} color="#e8002d" />}
-                {driver.trend === "same" && <Minus size={12} color="var(--muted-foreground)" />}
+                <Minus size={12} color="var(--muted-foreground)" />
               </div>
             </div>
           );

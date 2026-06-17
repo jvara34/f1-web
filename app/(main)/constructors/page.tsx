@@ -1,8 +1,11 @@
+import { api } from "@/lib/api";
 import { PageHeader } from "@/components/PageHeader";
 import { ConstructorStandings } from "@/components/ConstructorStandings";
 import { Card } from "@/components/Card";
 
-export default function ConstructorsPage() {
+export default async function ConstructorsPage() {
+  const standings = await api.getConstructorStandings();
+
   return (
     <div>
       <PageHeader
@@ -10,7 +13,7 @@ export default function ConstructorsPage() {
         subtitle="2026 Formula 1 World Constructors' Championship"
       />
       <Card>
-        <ConstructorStandings variant="full" />
+        <ConstructorStandings standings={standings} variant="full" />
       </Card>
     </div>
   );

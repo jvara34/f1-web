@@ -1,5 +1,9 @@
 import { getNextRace, getSeasonProgress } from "@/lib/calendar";
-import { driverStandings } from "@/lib/standings";
+import type { DriverStanding } from "@/lib/types";
+
+interface Props {
+  standings: DriverStanding[];
+}
 
 function StatCard({
   label,
@@ -60,13 +64,14 @@ function StatCard({
   );
 }
 
-export function StatCards() {
+export function StatCards({ standings }: Props) {
   const today = new Date();
   const { completed, total } = getSeasonProgress(today);
   const nextRace = getNextRace(today);
 
-  const leader = driverStandings[0];
-  const gap = leader.points - driverStandings[1].points;
+  const leader = standings[0];
+  const second = standings[1];
+  const gap = leader && second ? leader.points - second.points : 0;
 
   const daysToNext = nextRace
     ? Math.ceil(
@@ -84,8 +89,8 @@ export function StatCards() {
       />
       <StatCard
         label="Season Leader"
-        value={leader.shortName}
-        sub={`+${gap} pts over ${driverStandings[1].shortName}`}
+        value={leader?.code ?? "—"}
+        sub={leader && second ? `+${gap} pts over ${second.code}` : ""}
         accent="var(--primary)"
       />
       <StatCard
@@ -96,8 +101,8 @@ export function StatCards() {
       />
       <StatCard
         label="Wins Leader"
-        value={`${leader.wins}`}
-        sub={`${leader.name} · ${leader.team}`}
+        value={`${leader?.wins ?? 0}`}
+        sub={leader ? `${leader.first_name} ${leader.last_name} · ${leader.constructor_name}` : ""}
       />
     </div>
   );

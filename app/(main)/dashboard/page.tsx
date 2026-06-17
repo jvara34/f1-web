@@ -1,3 +1,4 @@
+import { api } from "@/lib/api";
 import { PageHeader } from "@/components/PageHeader";
 import { HeroSection } from "@/components/HeroSection";
 import { StatCards } from "@/components/StatCards";
@@ -8,7 +9,13 @@ import { RaceResults } from "@/components/RaceResults";
 import { SeasonCalendar } from "@/components/SeasonCalendar";
 import { Card } from "@/components/Card";
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const [driverStandings, constructorStandings, recentRaces] = await Promise.all([
+    api.getDriverStandings(),
+    api.getConstructorStandings(),
+    api.getRecentRaces(),
+  ]);
+
   return (
     <div className="space-y-5">
       <PageHeader
@@ -16,24 +23,20 @@ export default function DashboardPage() {
         subtitle="Explore race results, driver trends, constructor performance, and historical comparisons."
       />
 
-      {/* Next race hero with countdown */}
       <HeroSection />
 
-      {/* 4 quick-stat cards */}
-      <StatCards />
+      <StatCards standings={driverStandings} />
 
-      {/* Points progression chart */}
+      {/* PerformanceChart uses cumulative round-by-round data — wired up in Phase 5 */}
       <PerformanceChart />
 
-      {/* Driver + Constructor standings */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        <Card><DriverStandings /></Card>
-        <Card><ConstructorStandings /></Card>
+        <Card><DriverStandings standings={driverStandings} /></Card>
+        <Card><ConstructorStandings standings={constructorStandings} /></Card>
       </div>
 
-      {/* Race results + season calendar */}
       <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-5">
-        <Card><RaceResults /></Card>
+        <Card><RaceResults races={recentRaces} /></Card>
         <Card><SeasonCalendar /></Card>
       </div>
     </div>
